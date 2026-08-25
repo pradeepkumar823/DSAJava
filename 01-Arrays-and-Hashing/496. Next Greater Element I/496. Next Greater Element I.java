@@ -1,19 +1,21 @@
-1class Solution {
-2    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
-3        Map<Integer, Integer> ng = new HashMap<>();
-4        Deque<Integer> st = new ArrayDeque<>();
-5
-6        for (int num : nums2) {
-7            while (!st.isEmpty() && st.peek() < num) {
-8                ng.put(st.pop(), num);
-9            }
-10            st.push(num);
-11        }
-12
-13        int[] res = new int[nums1.length];
-14        for (int i = 0; i < nums1.length; i++) {
-15            res[i] = ng.getOrDefault(nums1[i], -1);
-16        }
-17        return res;        
-18    }
-19}
+class Solution {
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int freq[] = new int[10001];
+        int stack[] = new int[nums2.length];
+        int top=-1;
+        for(int i=nums2.length-1;i>=0;i--){
+               int num = nums2[i];
+               while(top>=0&&stack[top]<=num){
+                   top--;
+               }
+               freq[num] = (top == -1)? -1: stack[top];
+               top++;
+               stack[top] = num;
+        }
+        int ans[] = new int[nums1.length];
+        for(int i=0;i<nums1.length;i++){
+            ans[i] = freq[nums1[i]];
+        }
+        return ans;
+    }
+}
