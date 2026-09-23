@@ -1,15 +1,34 @@
-1class Solution {
-2    public double minimumAverage(int[] nums) {
-3        Arrays.sort(nums);
-4        double minAvg = Double.MAX_VALUE;
-5        int right=nums.length-1;
-6        for(int left=0;left<nums.length/2;left++){
-7        double avg=(nums[left]+nums[right])/2.0;
-8        minAvg=Math.min(avg,minAvg);
-9        right--;
-10        }
-11
-12        return minAvg;
-13        
-14    }
-15}
+class Solution {
+    public double minimumAverage(int[] nums) {
+        int n = nums.length;
+        int temp = n;
+        double minAverage = Integer.MAX_VALUE;
+        while(temp >= 2){
+            int minElement = Integer.MAX_VALUE;
+            int maxElement = Integer.MIN_VALUE;
+            for(int i = 0; i < n; i++){
+                if(nums[i] > 0){
+                    minElement = Math.min(minElement, nums[i]);
+                    maxElement = Math.max(maxElement, nums[i]);
+                }
+            }
+            for(int i = 0; i < n; i++){
+                if(nums[i] == minElement){
+                    nums[i] = 0;
+                    break;
+                }
+            }
+            for(int i = 0; i < n; i++){
+                if(nums[i] == maxElement){
+                    nums[i] = 0;
+                    break;
+                }
+            }
+            double average = (minElement + maxElement) / 2.0;
+            minAverage = Math.min(minAverage, average);
+            temp -= 2;
+        }
+        return minAverage;
+
+    }
+}
